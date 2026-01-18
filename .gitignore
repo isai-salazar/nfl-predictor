@@ -1,0 +1,10 @@
+data/
+models/
+logs/
+.env
+*.pkl
+*.parquet
+__pycache__/
+.ipynb_checkpoints/
+.vscode/
+.DS_Store
