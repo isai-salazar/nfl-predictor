@@ -1,0 +1,13 @@
+pyspark==3.5.1
+pyarrow
+pandas
+numpy
+xgboost
+scikit-learn
+streamlit
+matplotlib
+seaborn
+plotly
+joblib
+python-dotenv
+pyyaml
