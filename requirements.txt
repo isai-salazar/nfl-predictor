@@ -1,4 +1,4 @@
-pyspark==3.5.1
+pyspark==4.0.0
 pyarrow
 pandas
 numpy
