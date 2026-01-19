@@ -1,0 +1,11 @@
+bronze:
+  pbp: "data/bronze/play_by_play"
+  odds: "data/bronze/odds"
+  weather: "data/bronze/weather"
+silver:
+  pbp: "data/silver/play_by_play"
+  odds: "data/silver/odds"
+  weather: "data/silver/weather"
+gold:
+  games: "data/gold/games"
+  plays: "data/gold/plays"
