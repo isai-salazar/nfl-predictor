@@ -22,17 +22,27 @@ def main():
     output_path = config['silver']['pbp']
     
     # Basic cleanup and some aggregations
+    # Remember to include home_team, away_team, season_type which are already strings in the csv
     df = spark.read.option('header', 'true').csv(input_path)
     print(f"Dataframe with {df.count()} rows and {len(df.columns)} columns\n")
     df_clean = (df.withColumn("game_date", to_date(col("game_date"), "yyyy-MM-dd"))
                 .withColumn("season", col("season").cast(IntegerType()))
                 .withColumn("week", col("week").cast(IntegerType()))
+                .filter(col("play_type").isin("pass", "rush", "punt", "field_goal", "extra_point"))
+                .withColumn("air_yards", col("air_yards").cast(IntegerType()))
+                .withColumn("yards_after_catch", col("yards_after_catch").cast(IntegerType()))
                 .withColumn("yards_gained", col("yards_gained").cast(IntegerType()))
-                .withColumn("epa", col("epa").cast(DoubleType()))
+                .withColumn("total_home_epa", col("total_home_epa").cast(DoubleType()))
+                .withColumn("total_away_epa", col("total_away_epa").cast(DoubleType()))
                 .withColumn("total_home_score", col("total_home_score").cast(IntegerType()))
                 .withColumn("total_away_score", col("total_away_score").cast(IntegerType()))
-                .filter(col("play_type").isin("pass", "rush", "punt", "field_goal", "extra_point"))
-                .dropDuplicates(["game_id", "play_id"]))
+                .withColumn("div_game", col("div_game").cast(IntegerType())) # 0/1 as int
+                .withColumnRenamed("season_type", "is_playoffs") # 1=playoffs, 0=regular season
+                .withColumn("is_playoffs", when(col("is_playoffs") == "REG", 0).otherwise(1))
+                .dropDuplicates(["game_id", "play_id"])
+                .withColumnRenamed("result", "home_margin") #  spread from home team perspective
+                .withColumn("home_margin", col("home_margin").cast(IntegerType()))
+                )
     print(f"Dataframe with {df_clean.count()} rows and {len(df_clean.columns)} columns\n")
 
     # Save 
