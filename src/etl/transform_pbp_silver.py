@@ -22,9 +22,10 @@ def main():
     output_path = config['silver']['pbp']
     
     # Basic cleanup and some aggregations
-    # Remember to include home_team, away_team, season_type which are already strings in the csv
+    # Note: Remember to include home_team, away_team, season_type which are already strings in the csv in gold layer
+    print("Reading raw pbp data from bronze layer")
     df = spark.read.option('header', 'true').csv(input_path)
-    print(f"Dataframe with {df.count()} rows and {len(df.columns)} columns\n")
+    print(f"Initial dataframe with {df.count()} rows and {len(df.columns)} columns")
     df_clean = (df.withColumn("game_date", to_date(col("game_date"), "yyyy-MM-dd"))
                 .withColumn("season", col("season").cast(IntegerType()))
                 .withColumn("week", col("week").cast(IntegerType()))
@@ -43,7 +44,7 @@ def main():
                 .withColumnRenamed("result", "home_margin") #  spread from home team perspective
                 .withColumn("home_margin", col("home_margin").cast(IntegerType()))
                 )
-    print(f"Dataframe with {df_clean.count()} rows and {len(df_clean.columns)} columns\n")
+    print(f"Dataframe with {df_clean.count()} rows and {len(df_clean.columns)} columns after cleaning")
 
     # Save 
     # This requires hadoop winutils.exe in PATH to be able to write to local filesystem on Windows
