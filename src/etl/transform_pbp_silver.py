@@ -33,8 +33,7 @@ def main():
                 .withColumn("air_yards", col("air_yards").cast(IntegerType()))
                 .withColumn("yards_after_catch", col("yards_after_catch").cast(IntegerType()))
                 .withColumn("yards_gained", col("yards_gained").cast(IntegerType()))
-                .withColumn("total_home_epa", col("total_home_epa").cast(DoubleType()))
-                .withColumn("total_away_epa", col("total_away_epa").cast(DoubleType()))
+                .withColumn("epa", col("epa").cast(DoubleType()))
                 .withColumn("total_home_score", col("total_home_score").cast(IntegerType()))
                 .withColumn("total_away_score", col("total_away_score").cast(IntegerType()))
                 .withColumn("div_game", col("div_game").cast(IntegerType())) # 0/1 as int
