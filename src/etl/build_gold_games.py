@@ -32,6 +32,7 @@ def main():
                     max("total_away_score").alias("final_away_score"),
                     (max("total_home_score") + max("total_away_score")).alias("final_total_score"),
                     max("home_margin").alias("final_home_margin"),
+                    when(max("total_home_score") > max("total_away_score"), 1).otherwise(0).alias("home_win"),
                     sum(when(col("play_type") == "pass", 1).otherwise(0)).alias("total_pass_plays"),
                     sum(when(col("play_type") == "rush", 1).otherwise(0)).alias("total_rush_plays"),
                     sum(when(col("play_type").isin("pass", "rush"), col("yards_gained")).otherwise(0)).alias("total_offensive_yards"),
