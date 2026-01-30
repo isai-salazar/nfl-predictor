@@ -64,7 +64,15 @@ def main():
                 .withColumnRenamed("schedule_week", "week")
                 .withColumnRenamed("team_home", "home_team")
                 .withColumnRenamed("team_away", "away_team")
-                .select("season", "week", "home_team", "away_team","team_favorite_id", "spread_favorite", "over_under_line")
+                .select(
+                    "season", 
+                    "week", 
+                    "home_team", 
+                    "away_team",
+                    when(col("team_favorite_id") == col("home_team"), 1).otherwise(0).alias("is_favorite_home"),
+                    "spread_favorite", 
+                    "over_under_line"
+                    )
                 )
     
     df_mapped.write.mode('overwrite').partitionBy("season").parquet(output_path)
