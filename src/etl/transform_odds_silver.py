@@ -1,7 +1,7 @@
 import yaml
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
-
+from pyspark.sql.types import *
 
 def load_config():
     with open("config/paths.yml", "r") as f:
@@ -66,7 +66,15 @@ def main():
                 .withColumnRenamed("team_away", "away_team")
                 .select(
                     "season", 
-                    "week", 
+                    when(col("week") == "Wildcard", 18)
+                        .otherwise(
+                            when(col("week") == "Division", 19)
+                            .otherwise(when(col("week") == "Conference", 20)
+                                .otherwise(when(col("week") == "Superbowl", 21)
+                                    .otherwise(col("week").cast(IntegerType()))
+                                )
+                            )
+                        ).alias("week"), 
                     "home_team", 
                     "away_team",
                     when(col("team_favorite_id") == col("home_team"), 1).otherwise(0).alias("is_favorite_home"),
