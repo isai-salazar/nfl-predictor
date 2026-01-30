@@ -20,8 +20,9 @@ def main():
     
     config = load_config()
 
+    # PLAY-BY-PLAY DATA
     silver_path = f"{config['silver']['pbp']}"
-    df_silver_all = spark.read.parquet(f"{silver_path}/*")
+    df_silver_all = spark.read.option("basePath", silver_path).parquet(f"{silver_path}/*") # We use basePath to include the column season
     output_path = config['gold']['games']
 
     # 1. Base game-level ML targets and aggregations
@@ -135,9 +136,16 @@ def main():
                 col("def_allowed_rush_yds_season_avg").alias("away_def_allowed_rush_yds_season_avg")
     )
 
+    # ODDS DATA
+    odds_path = f"{config['silver']['odds']}"
+    df_odds = spark.read.option("basePath", odds_path).parquet(f"{odds_path}/*") # We use basePath to include the column season
+
     # 5. Final join
     df_games_final = df_games_base.join(df_home_stats, "game_id", "left").join(df_away_stats, "game_id", "left")
-    df_games_final.write.mode('overwrite').partitionBy("season").parquet(f"{output_path}")
+    df_games_base.printSchema()
+    join_cols = ["season", "week", "home_team"]
+    df_games_final_with_odds = df_games_final.join(df_odds, on = join_cols, how = "left")
+    df_games_final_with_odds.write.mode('overwrite').partitionBy("season").parquet(f"{output_path}")
 
     spark.stop()
 
