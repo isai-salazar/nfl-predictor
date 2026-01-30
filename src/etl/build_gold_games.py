@@ -20,12 +20,12 @@ def main():
     
     config = load_config()
 
-    silver_pbp_path = f"{config['silver']['pbp']}/season=2023"
-    df_silver = spark.read.option('header', 'true').parquet(silver_pbp_path)
+    silver_path = f"{config['silver']['pbp']}"
+    df_silver_all = spark.read.parquet(f"{silver_path}/*")
     output_path = config['gold']['games']
 
     # 1. Base game-level ML targets and aggregations
-    df_games_base = (df_silver
+    df_games_base = (df_silver_all
                 .groupBy("game_id", "season", "game_date", "week", "home_team", "away_team", "div_game", "is_playoffs")
                 .agg(
                     max("total_home_score").alias("final_home_score"),
@@ -42,7 +42,7 @@ def main():
 
     # 2. Team stats per game. We create this smaller df to make WINDOW sums and averages easier to debug later
     # This creates 2 rows per game_id, one for each team as offense
-    temp_df_team_stats = (df_silver
+    temp_df_team_stats = (df_silver_all
         .filter(col("posteam").isNotNull())
         .groupBy("game_id", "season", "week", "posteam", "defteam", "home_team", "away_team")
         .agg(
@@ -137,7 +137,7 @@ def main():
 
     # 5. Final join
     df_games_final = df_games_base.join(df_home_stats, "game_id", "left").join(df_away_stats, "game_id", "left")
-    df_games_final.write.mode('overwrite').partitionBy("season").parquet(f"{output_path}/season=2023")
+    df_games_final.write.mode('overwrite').partitionBy("season").parquet(f"{output_path}")
 
     spark.stop()
 
