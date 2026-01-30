@@ -79,7 +79,7 @@ def main():
                     "away_team",
                     when(col("team_favorite_id") == col("home_team"), 1).otherwise(0).alias("is_favorite_home"),
                     "spread_favorite", 
-                    "over_under_line"
+                    col("over_under_line").cast(DoubleType())
                     )
                 )
     
