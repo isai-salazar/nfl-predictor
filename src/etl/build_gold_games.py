@@ -143,7 +143,7 @@ def main():
     # 5. Final join
     df_games_final = df_games_base.join(df_home_stats, "game_id", "left").join(df_away_stats, "game_id", "left")
     df_games_base.printSchema()
-    join_cols = ["season", "week", "home_team"]
+    join_cols = ["season", "week","home_team", "away_team"]
     df_games_final_with_odds = df_games_final.join(df_odds, on = join_cols, how = "left")
     df_games_final_with_odds.write.mode('overwrite').partitionBy("season").parquet(f"{output_path}")
 
