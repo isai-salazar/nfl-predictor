@@ -51,6 +51,8 @@ Streamlit App
     └── Interactive predictions & betting recommendations
 ```
 
+![nfl_predictor](https://github.com/user-attachments/assets/43c68da0-a991-44a2-8af3-bc9a1892590e)
+
 ### Data Sources
 
 - **Play-by-Play Data**: [NFLverse Data](https://github.com/nflverse/nflverse-data/releases) - Comprehensive NFL game data including EPA (Expected Points Added)
