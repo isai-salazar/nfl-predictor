@@ -3,7 +3,7 @@
 
 An end-to-end data engineering and machine learning pipeline for predicting NFL game outcomes. This project combines **data engineering pipelines** (Bronze → Silver → Gold medallion architecture), **feature engineering**, and **machine learning models** to forecast home win probability, expected point spread, and total game points.
 
-Spanish demo: https://www.loom.com/share/9e5835d7f0074573abe111e1e1dc0c30
+> Spanish demo: https://www.loom.com/share/9e5835d7f0074573abe111e1e1dc0c30
 
 ## 🎯 Project Overview
 
