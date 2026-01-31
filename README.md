@@ -1,3 +1,4 @@
+
 # NFL Predictor
 
 An end-to-end data engineering and machine learning pipeline for predicting NFL game outcomes. This project combines **data engineering pipelines** (Bronze → Silver → Gold medallion architecture), **feature engineering**, and **machine learning models** to forecast home win probability, expected point spread, and total game points.
@@ -15,6 +16,8 @@ This system processes historical NFL play-by-play data and Vegas betting odds th
 - 🏆 **Home Win Classification**: 61.9% accuracy
 - 📊 **Spread Prediction**: 10.6 points MAE (Mean Absolute Error)
 - 🔢 **Total Points Prediction**: 11.2 points MAE
+
+<img width="1887" height="898" alt="nfl-predictor" src="https://github.com/user-attachments/assets/8481d008-ecb3-4783-af17-850a1d289195" />
 
 ### ⚠️ Disclaimer
 
@@ -296,6 +299,14 @@ All three models are **XGBoost** and use the same 50+ engineered features:
 | `model_win` | Classification | home_win (0/1) | Accuracy | 61.9% |
 | `model_spread` | Regression | final_home_margin | MAE | 10.6 pts |
 | `model_total` | Regression | final_total_score | MAE | 11.2 pts |
+
+Confussion matrix
+
+<img width="590" height="496" alt="image" src="https://github.com/user-attachments/assets/1fd4daca-2244-4a9c-b3cc-51cc1e753718" />
+
+Spread MAE
+
+<img width="955" height="602" alt="image" src="https://github.com/user-attachments/assets/449893d7-0929-45c4-97b9-ab51886dba27" />
 
 ### Feature Input
 
