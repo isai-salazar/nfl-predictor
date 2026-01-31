@@ -23,7 +23,7 @@ This system processes historical NFL play-by-play data and Vegas betting odds th
 
 ### ⚠️ Disclaimer
 
-This is an **early-stage prototype** built for portfolio and experimentation purposes. Predictions are **not production-grade** and should **not** be used for real betting decisions.
+> This is an **early-stage prototype** built for portfolio and experimentation purposes. Predictions are **not production-grade** and should **not** be used for real betting decisions.
 
 ---
 
